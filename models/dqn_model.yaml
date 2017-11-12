@@ -1,0 +1,138 @@
+backend: tensorflow
+class_name: Model
+config:
+  input_layers:
+  - [state, 0, 0]
+  - [y_true, 0, 0]
+  layers:
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 1, 25, 25]
+      dtype: float32
+      name: state
+      sparse: false
+    inbound_nodes: []
+    name: state
+  - class_name: Flatten
+    config: {name: flatten_1, trainable: true}
+    inbound_nodes:
+    - - - state
+        - 0
+        - 0
+        - {}
+    name: flatten_1
+  - class_name: Dense
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
+      kernel_regularizer: null
+      name: dense_1
+      trainable: true
+      units: 64
+      use_bias: true
+    inbound_nodes:
+    - - - flatten_1
+        - 0
+        - 0
+        - {}
+    name: dense_1
+  - class_name: Dense
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
+      kernel_regularizer: null
+      name: dense_2
+      trainable: true
+      units: 32
+      use_bias: true
+    inbound_nodes:
+    - - - dense_1
+        - 0
+        - 0
+        - {}
+    name: dense_2
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 2]
+      dtype: float32
+      name: y_true
+      sparse: false
+    inbound_nodes: []
+    name: y_true
+  - class_name: Dense
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
+      kernel_regularizer: null
+      name: main_output
+      trainable: true
+      units: 2
+      use_bias: true
+    inbound_nodes:
+    - - - dense_2
+        - 0
+        - 0
+        - {}
+    name: main_output
+  - class_name: Lambda
+    config:
+      arguments: {}
+      function: !!python/tuple ["\xE3\x01\0\0\0\0\0\0\0\b\0\0\0\x04\0\0\0C\0\0\0s\x81\
+          \0\0\0d\x01\0d\0\0l\0\0}\x01\0|\0\0\\\x02\0}\x02\0}\x03\0|\x01\0j\x01\0\
+          |\x03\0|\x02\0\x18\x83\x01\0}\x04\0|\x01\0j\x02\0|\x04\0d\x02\0d\x03\0\x83\
+          \x03\0}\x05\0|\x04\0|\x05\0\x18}\x06\0|\x01\0j\x03\0d\x04\0|\x01\0j\x04\0\
+          |\x05\0\x83\x01\0\x14|\x06\0\x17\x83\x01\0}\a\0|\x01\0j\x05\0j\x06\0d\x05\
+          \0|\a\0\x83\x02\0\x01|\a\0S)\x06N\xE9\0\0\0\0g\0\0\0\0\0\0\0\0g\0\0\0\0\0\
+          \0\xF0?g\0\0\0\0\0\0\xE0?\xDA\x04loss)\a\xDA\ntensorflow\xDA\x03abs\xDA\r\
+          clip_by_value\xDA\nreduce_sum\xDA\x06square\xDA\asummary\xDA\x06scalar)\b\
+          \xDA\x04args\xDA\x02tf\xDA\x06y_true\xDA\x06y_pred\xDA\x05error\xDA\x0E\
+          quadratic_part\xDA\vlinear_partr\x02\0\0\0\xA9\0r\x11\0\0\0\xFA)/home/flet/workspace/sign_plearn/agent.py\xDA\
+          \tloss_func\x11\0\0\0s\x10\0\0\0\0\x01\f\x01\f\x01\x13\x01\x15\x01\n\x01\
+          \ \x01\x13\x01", null, null]
+      function_type: lambda
+      name: loss
+      output_shape: !!python/tuple [1]
+      output_shape_type: raw
+      trainable: true
+    inbound_nodes:
+    - - - y_true
+        - 0
+        - 0
+        - &id001 {}
+      - - main_output
+        - 0
+        - 0
+        - *id001
+    name: loss
+  name: model_1
+  output_layers:
+  - [loss, 0, 0]
+  - [main_output, 0, 0]
+keras_version: 2.0.8
