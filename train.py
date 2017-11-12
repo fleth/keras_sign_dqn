@@ -6,16 +6,8 @@ import json
 from env import Env
 from agent import Agent
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-l", "--load", dest="load", action="store_true",
-    default=False, help='Load trained model (default: off)')
-args = parser.parse_args()
-
 env = Env()
 agent = Agent(env.actions)
-
-if args.load:
-    agent.load_model()
 
 terminal = False
 n_epochs = 5000
